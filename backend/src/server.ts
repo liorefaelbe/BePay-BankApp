@@ -12,6 +12,7 @@ initSocket(server);
 // Connect to Database
 connectDB();
 // Start Server
-server.listen(PORT, "0.0.0.0", () => {
+server.listen(process.env.PORT || PORT, wwww, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
+
