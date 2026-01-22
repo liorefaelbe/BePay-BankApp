@@ -74,7 +74,7 @@ Example:
 VITE_API_BASE=https://your-backend.onrender.com/api
 
 ### Purpose
-* This project was built as:
+This project was built as:
 * A portfolio and interview project.
 * A demonstration of real-world frontend structure.
 * Practice for authentication flows and protected routes.
