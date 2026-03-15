@@ -2,13 +2,19 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import { api } from "../lib/api";
 import { clearToken, getToken, setToken } from "../lib/storage";
 
+<<<<<<< HEAD
 // Define the shape of the authenticated user object
+=======
+>>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
 export type AuthUser = {
   email: string;
   balance?: number;
 };
 
+<<<<<<< HEAD
 // Define the shape of the authentication context, including user info and auth methods
+=======
+>>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
 type AuthContextValue = {
   token: string | null;
   user: AuthUser | null;
@@ -31,7 +37,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const isAuthenticated = !!token;
 
+<<<<<<< HEAD
   // Login by setting token (and optionally user), storing token in localStorage
+=======
+>>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
   function loginWithToken(nextToken: string, nextUser?: AuthUser | null) {
     setToken(nextToken);
     setTokenState(nextToken);
@@ -95,7 +104,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+<<<<<<< HEAD
 // Custom hook to access the AuthContext
+=======
+>>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within AuthProvider");

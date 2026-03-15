@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -30,3 +31,37 @@ export function authGuard(req: AuthRequest, res: Response, next: NextFunction) {
     return res.status(401).json({ message: "Invalid token" });
   }
 }
+=======
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = "super-secret-key";
+
+// Extended Request interface to include user info
+export interface AuthRequest extends Request {
+  user?: any;
+}
+
+// Middleware to protect routes
+export function authGuard(req: AuthRequest, res: Response, next: NextFunction) {
+  const header = req.headers.authorization;
+
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Missing token" });
+  }
+
+  const token = header.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+}
+>>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
