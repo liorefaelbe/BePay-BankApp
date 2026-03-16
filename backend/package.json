@@ -7,13 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-<<<<<<< HEAD
     "dev": "ts-node-dev --respawn src/server.ts",
     "build": "tsc",
-=======
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json",
->>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build -t banking-backend .",

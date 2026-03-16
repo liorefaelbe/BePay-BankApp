@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 
+import { envInt, envBool, envStr } from "./readEnvVart.service";
+
 type SendOtpParams = {
   email: string;
   phone?: string | null;
@@ -25,50 +27,22 @@ function maskEmail(email: string): string {
   return `${u}@${dMasked}${rest}`;
 }
 
-function maskPhone(phone: string): string {
-  const digits = (phone || "").replace(/\D/g, "");
-  if (digits.length <= 4) return "***";
-  return `***${digits.slice(-4)}`;
-}
-
-function env(name: string): string | undefined {
-  const v = process.env[name];
-  return v && v.trim().length ? v.trim() : undefined;
-}
-
-function envBool(name: string, defaultValue: boolean): boolean {
-  const v = env(name);
-  if (!v) return defaultValue;
-  return ["1", "true", "yes", "on"].includes(v.toLowerCase());
-}
-
-function envInt(name: string, defaultValue: number): number {
-  const v = env(name);
-  if (!v) return defaultValue;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : defaultValue;
-}
-
 function isEmailConfigured() {
   return Boolean(
-    env("EMAIL_SMTP_HOST") &&
-    env("EMAIL_SMTP_PORT") &&
-    env("EMAIL_SMTP_USER") &&
-    env("EMAIL_SMTP_PASS") &&
-    env("EMAIL_FROM"),
+    envStr("EMAIL_SMTP_HOST") &&
+    envStr("EMAIL_SMTP_PORT") &&
+    envStr("EMAIL_SMTP_USER") &&
+    envStr("EMAIL_SMTP_PASS") &&
+    envStr("EMAIL_FROM"),
   );
 }
 
-function isSmsConfigured() {
-  return Boolean(env("TWILIO_ACCOUNT_SID") && env("TWILIO_AUTH_TOKEN") && env("TWILIO_FROM_NUMBER"));
-}
-
 function buildEmailTransporter() {
-  const host = env("EMAIL_SMTP_HOST")!;
+  const host = envStr("EMAIL_SMTP_HOST")!;
   const port = envInt("EMAIL_SMTP_PORT", 587);
   const secure = envBool("EMAIL_SMTP_SECURE", false); // usually false for 587, true for 465
-  const user = env("EMAIL_SMTP_USER")!;
-  const pass = env("EMAIL_SMTP_PASS")!;
+  const user = envStr("EMAIL_SMTP_USER")!;
+  const pass = envStr("EMAIL_SMTP_PASS")!;
 
   return nodemailer.createTransport({
     host,
@@ -115,7 +89,7 @@ function buildResetEmailHtml(appName: string, link: string, ttlMinutes: number) 
 }
 
 export async function sendOtp(params: SendOtpParams): Promise<{ deliveredTo: DeliveredTo }> {
-  const appName = params.appName || env("APP_NAME") || "Web Banking";
+  const appName = params.appName || envStr("APP_NAME") || "Web Banking";
   const ttlMinutes = envInt("OTP_TTL_MINUTES", 5);
 
   const deliveredTo: DeliveredTo = {
@@ -125,7 +99,7 @@ export async function sendOtp(params: SendOtpParams): Promise<{ deliveredTo: Del
   // Email
   if (isEmailConfigured()) {
     const transporter = buildEmailTransporter();
-    const from = env("EMAIL_FROM")!;
+    const from = envStr("EMAIL_FROM")!;
     await transporter.sendMail({
       from,
       to: params.email,
@@ -142,11 +116,11 @@ export async function sendOtp(params: SendOtpParams): Promise<{ deliveredTo: Del
 }
 
 export async function sendPasswordResetEmail(toEmail: string, resetLink: string, ttlMinutes: number) {
-  const appName = env("APP_NAME") || "Web Banking";
+  const appName = envStr("APP_NAME") || "Web Banking";
 
   if (isEmailConfigured()) {
     const transporter = buildEmailTransporter();
-    const from = env("EMAIL_FROM")!;
+    const from = envStr("EMAIL_FROM")!;
     await transporter.sendMail({
       from,
       to: toEmail,

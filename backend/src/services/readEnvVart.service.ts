@@ -1,4 +1,5 @@
 // Utility functions to read environment variables with defaults and types
+
 function envBool(name: string, defaultValue: boolean): boolean {
   const v = process.env[name];
   if (!v) return defaultValue;

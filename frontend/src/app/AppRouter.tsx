@@ -1,8 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-<<<<<<< HEAD
-=======
-
->>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
 import RootLayout from "./RootLayout";
 import RequireAuth from "../auth/RequireAuth";
 import BrandShell from "../layout/brand/BrandShell";
@@ -111,10 +107,7 @@ export default function AppRouter() {
           }
         />
 
-<<<<<<< HEAD
         {/* Not found page */}
-=======
->>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

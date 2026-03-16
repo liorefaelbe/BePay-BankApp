@@ -9,10 +9,7 @@ export type ClientToServerEvents = {
 };
 
 function resolveSocketUrl(): string {
-<<<<<<< HEAD
-=======
   // Prefer explicit env, otherwise same-origin (works behind reverse proxy).
->>>>>>> 3021c2567a6c53da578b52677e4f94c9ea73a29f
   return import.meta.env.VITE_SOCKET_URL || window.location.origin;
 }
 
